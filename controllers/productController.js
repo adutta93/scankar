@@ -58,7 +58,7 @@ exports.createProduct = async (req, res) => {
     // console.log(req.body);
     const prod = req.body;
     prod.photo = image_url;
-    prod.resturant_id = req.client_id;
+    // prod.resturant_id = req.client_id;
     console.log(prod);
     const newProduct = await Product.create(prod);
     res.status(201).json({

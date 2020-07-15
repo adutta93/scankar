@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema(
   {
     resturant_id: {
       type: String,
-      // required: true,
+      required: true,
     },
     name: {
       type: String,
