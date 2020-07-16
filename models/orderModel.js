@@ -52,6 +52,9 @@ const orderSchema = new mongoose.Schema(
     noOfSeatsAllotted: {
       type: Number,
     },
+    table_no: {
+      type: Number,
+    },
     user: String,
   },
   { timestamps: true }
