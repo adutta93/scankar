@@ -44,6 +44,11 @@ const customerOrderSchema = new mongoose.Schema(
         'Cancelled',
       ],
     },
+    process: {
+      type: String,
+      default: 'Pending',
+      enum: ['Pending', 'Accepted', 'Delivered'],
+    },
     noOfSeatsRequested: {
       type: Number,
     },

@@ -2,7 +2,7 @@ const CustomerOrder = require('../models/customerOrderModel');
 const order = require('./orderController');
 
 // Controllers
-// to get a all order
+// to get all order
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await CustomerOrder.find();
