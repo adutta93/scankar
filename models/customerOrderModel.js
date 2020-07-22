@@ -49,6 +49,10 @@ const customerOrderSchema = new mongoose.Schema(
       default: 'Pending',
       enum: ['Pending', 'Accepted', 'Delivered'],
     },
+    instruction: {
+      type: String,
+      default: '',
+    },
     noOfSeatsRequested: {
       type: Number,
     },
