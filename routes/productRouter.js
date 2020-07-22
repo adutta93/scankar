@@ -8,14 +8,18 @@ const {
   updateProduct,
   deleteProduct,
 } = require('../controllers/productController');
+const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.route('/').get(getAllProducts).post(cloudUpload, createProduct);
+router
+  .route('/')
+  .get(getAllProducts)
+  .post(protect, authorize('admin'), cloudUpload, createProduct);
 router
   .route('/:id')
   .get(getSingleProduct)
-  .patch(updateProduct)
-  .delete(deleteProduct);
+  .patch(protect, authorize('admin'), updateProduct)
+  .delete(protect, authorize('admin'), deleteProduct);
 
 module.exports = router;

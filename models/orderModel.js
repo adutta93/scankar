@@ -48,6 +48,14 @@ const orderSchema = new mongoose.Schema(
         'Delivered',
         'Cancelled',
       ],
+    process: {
+      type: String,
+      default: 'Pending',
+      enum: [
+        'Pending',
+        'Accepted',
+        'Delivered',
+      ],
     },
     noOfSeatsAllotted: {
       type: Number,

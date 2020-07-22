@@ -32,6 +32,7 @@ const productRouter = require('./routes/productRouter');
 const orderRouter = require('./routes/orderRouter');
 const customerOrderRouter = require('./routes/customerOrderRouter');
 const resturentDetailsRouter = require('./routes/resturantDetailsRoutes');
+const authRoute = require('./routes/authRoute');
 // const logInRoute = require('./routes/logInRoute');
 
 const app = express();
@@ -59,7 +60,7 @@ app.use('/api/v1/products', productRouter);
 app.use('/api/v1/orders', orderRouter);
 app.use('/api/v1/customer-order', customerOrderRouter);
 app.use('/api/v1/info', resturentDetailsRouter);
-// app.use('/api/v1/login', logInRoute);
+app.use('/api/v1/', authRoute);
 
 // server
 const port = process.env.PORT || 5000;

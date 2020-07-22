@@ -132,6 +132,26 @@ exports.updateOrderStatus = async (req, res) => {
   }
 };
 
+// update order process
+exports.updateOrderProcess = async (req, res) => {
+  try {
+    const order = await Order.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        order,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'Error',
+      err,
+    });
+  }
+};
 // delete order
 
 // In future need to add
