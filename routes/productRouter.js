@@ -12,14 +12,11 @@ const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(getAllProducts)
-  .post(protect, authorize('admin'), cloudUpload, createProduct);
+router.route('/').get(getAllProducts).post(cloudUpload, createProduct);
 router
   .route('/:id')
   .get(getSingleProduct)
-  .patch(protect, authorize('admin'), updateProduct)
-  .delete(protect, authorize('admin'), deleteProduct);
+  .patch(updateProduct)
+  .delete(deleteProduct);
 
 module.exports = router;
