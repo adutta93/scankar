@@ -1,6 +1,8 @@
 const Product = require('../models/productModel');
 const cloudinary = require('../utils/cloudinary');
 const bufferToString = require('../utils/convertBufferToStr');
+const readXlsxFile = require('read-excel-file/node');
+const path = require('path');
 
 // ALL CONTROLLER
 
@@ -72,6 +74,55 @@ exports.createProduct = async (req, res) => {
     res.status(400).json({
       status: 'Error',
       err,
+    });
+  }
+};
+
+// upload product in bulk
+exports.uploadInBulk = async (req, res) => {
+  try {
+    if (req.file == undefined) {
+      return res.status(400).send('Please upload an excel file!');
+    }
+
+    readXlsxFile(path).then((rows) => {
+      // skip header
+      rows.shift();
+
+      let allProducts = [];
+
+      rows.forEach((row) => {
+        let product = {
+          resturant_id: row[0],
+          name: row[1],
+          rating: row[2],
+          price: row[3],
+          category: row[4],
+          photo: row[5],
+          options: row[6],
+          status: row[7],
+        };
+
+        allProducts.push(product);
+      });
+
+      Product.bulkCreate(tutorials)
+        .then(() => {
+          res.status(200).send({
+            message: 'Uploaded the file successfully: ' + req.file.originalname,
+          });
+        })
+        .catch((error) => {
+          res.status(500).send({
+            message: 'Fail to import data into database!',
+            error: error.message,
+          });
+        });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: 'Could not upload the file: ' + req.file.originalname,
     });
   }
 };
