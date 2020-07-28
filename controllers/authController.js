@@ -7,7 +7,15 @@ const asyncHandler = require('../middleware/async');
 // register/signup
 
 exports.register = asyncHandler(async (req, res, next) => {
-  const { firstName, lastName, email, mobileNumber, password, role } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    mobileNumber,
+    password,
+    role,
+    ownerType,
+  } = req.body;
   //create user
   const user = await User.create({
     firstName,
@@ -16,6 +24,7 @@ exports.register = asyncHandler(async (req, res, next) => {
     mobileNumber,
     password,
     role,
+    ownerType,
   });
 
   //create token

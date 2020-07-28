@@ -49,6 +49,13 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'admin', 'accounts'],
       required: true,
     },
+
+    ownerType: {
+      type: String,
+      default: 'returantowner',
+      enum: ['returantowner', 'hotelowner'],
+      required: true,
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     createdAt: {
