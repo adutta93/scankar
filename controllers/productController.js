@@ -81,44 +81,43 @@ exports.createProduct = async (req, res) => {
 // upload product in bulk
 exports.uploadInBulk = async (req, res) => {
   try {
-    if (req.file == undefined) {
-      return res.status(400).send('Please upload an excel file!');
-    }
+    // if (req.file == undefined) {
+    //   return res.status(400).send('Please upload an excel file!');
+    // }
 
-    readXlsxFile(path).then((rows) => {
-      // skip header
-      rows.shift();
+    // readXlsxFile(path).then((rows) => {
+    //   // skip header
+    //   rows.shift();
 
-      let allProducts = [];
+    let allProducts = [];
 
-      rows.forEach((row) => {
-        let product = {
-          resturant_id: row[0],
-          name: row[1],
-          rating: row[2],
-          price: row[3],
-          category: row[4],
-          photo: row[5],
-          options: row[6],
-          status: row[7],
-        };
+    req.body.products.forEach((row) => {
+      let product = {
+        resturant_id: row.resturant_id,
+        name: row.name,
+        rating: row.rating,
+        price: row.price,
+        category: row.category,
+        photo: row.photo,
+        options: row.options,
+        status: row.status,
+      };
 
-        allProducts.push(product);
-      });
-
-      Product.bulkCreate(tutorials)
-        .then(() => {
-          res.status(200).send({
-            message: 'Uploaded the file successfully: ' + req.file.originalname,
-          });
-        })
-        .catch((error) => {
-          res.status(500).send({
-            message: 'Fail to import data into database!',
-            error: error.message,
-          });
-        });
+      allProducts.push(product);
     });
+    console.log(allProducts);
+    Product.insertMany(allProducts)
+      .then(() => {
+        res.status(200).send({
+          message: 'Uploaded successfully',
+        });
+      })
+      .catch((error) => {
+        res.status(500).send({
+          message: 'Fail to import data into database!',
+          error: error.message,
+        });
+      });
   } catch (error) {
     console.log(error);
     res.status(500).send({
