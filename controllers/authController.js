@@ -57,9 +57,33 @@ exports.login = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
+// admin login
+exports.adminLogin = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body;
+  //validation email and password
+  if (!email || !password) {
+    return next(new ErrorResponse('Please enter email id and password', 400));
+  }
+  //check for user
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user) {
+    return next(new ErrorResponse('Invalid credential', 401));
+  }
+  //check if password matchs
+  const isMatch = await user.matchPassword(password);
+
+  if (!isMatch) {
+    return next(new ErrorResponse('Invalid password', 401));
+  }
+  //create token
+  sendTokenResponse(user, 200, res);
+});
+
 //get token from model, create a cookie, send res
 const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
+  const type = user.ownerType;
 
   const options = {
     expires: new Date(
@@ -72,9 +96,10 @@ const sendTokenResponse = (user, statusCode, res) => {
     options.secure = true;
   }
 
-  res.status(statusCode).cookie('token', token, options).json({
-    message: 'Succesful',
+  res.status(statusCode).cookie('token', token, options, user).json({
+    message: 'Succesful Login',
     token,
+    user,
   });
 };
 
