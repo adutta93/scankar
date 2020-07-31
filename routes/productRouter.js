@@ -14,10 +14,7 @@ const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(protect, authorize('admin'), getAllProducts)
-  .post(cloudUpload, createProduct);
+router.route('/').get(getAllProducts).post(cloudUpload, createProduct);
 router.route('/uploadinbulk').post(fileUpload, uploadInBulk);
 router.route('/uploadSome').post(uploadInBulk);
 router
