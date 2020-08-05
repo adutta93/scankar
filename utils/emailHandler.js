@@ -8,12 +8,6 @@ const sendEmail = async (options) => {
       user: 'be9929b70dd679',
       pass: '892ff6656bb4a9',
     },
-    // host: 'smtp.googlemail.com',
-    // port: 2525,
-    // auth: {
-    //   user: 'scankarofficial2020@gmail.com',
-    //   pass: 'scankaradmin1234',
-    // },
   });
 
   const mailOptions = {
