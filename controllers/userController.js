@@ -23,7 +23,7 @@ exports.getAllUsers = async (req, res) => {
 // to get a single user
 exports.getSingleUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).populate("menu");
     res.status(200).json({
       status: 'Success',
       data: {
