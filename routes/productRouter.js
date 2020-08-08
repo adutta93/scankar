@@ -15,8 +15,8 @@ const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.route('/').get(protect,getAllProducts).post(protect , createProduct);
-router.route('/uploadinbulk').post(fileUpload, uploadInBulk);
+router.route('/').get(protect,getAllProducts).post(protect , cloudUpload,createProduct);
+router.route('/uploadinbulk').post(protect , fileUpload, uploadInBulk);
 router.route('/uploadSome').post(uploadInBulk);
 router
   .route('/:id')

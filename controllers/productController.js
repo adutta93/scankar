@@ -51,18 +51,19 @@ exports.getSingleProduct = async (req, res) => {
 let imageContent, image_url;
 exports.createProduct = async (req, res) => {
   try {
-    // imageContent = bufferToString(req.file.originalname, req.file.buffer)
-    //   .content;
-    // await cloudinary.uploader.upload(imageContent, (err, imageResponse) => {
-    //   if (err) console.log(err);
-    //   else {
-    //     image_url = imageResponse.secure_url;
-    //     console.log('log from cloudinary', image_url);
-    //   }
-    // });
+    console.log("files" , req.file , req.body)
+    imageContent = bufferToString(req.file.originalname, req.file.buffer)
+      .content;
+    await cloudinary.uploader.upload(imageContent, (err, imageResponse) => {
+      if (err) console.log(err);
+      else {
+        image_url = imageResponse.secure_url;
+        console.log('log from cloudinary', image_url);
+      }
+    });
  
     const prod = req.body;
-    // prod.photo = image_url;
+    prod.photo = image_url;
     // prod.resturant_id = req.client_id;
     
    
