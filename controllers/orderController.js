@@ -104,6 +104,7 @@ exports.createOrder = async (order) => {
       orders: order.orders,
       price: order.price,
       noOfSeatsAllotted: order.noOfSeatsRequested,
+      userId:order.userId
     };
     await Order.create(newOrder);
   } catch (err) {

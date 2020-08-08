@@ -14,6 +14,10 @@ const customerOrderSchema = new mongoose.Schema(
         quantity: Number,
       },
     ],
+    userId:{
+      type:String,
+      required:true
+    },
 
     price: {
       type: Number,

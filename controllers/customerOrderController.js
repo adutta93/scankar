@@ -5,7 +5,9 @@ const order = require('./orderController');
 // to get all order
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await CustomerOrder.find();
+    console.log("userIddd", req.user._id)
+    const orders = await CustomerOrder.find({userId:req.user._id});
+    console.log("customer order" , orders)
     res.status(200).json({
       status: 'Success',
       results: orders.length,
