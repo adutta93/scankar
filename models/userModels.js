@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema(
         'Please add a valid email',
       ],
     },
+    menu:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref : "Product"
+    }],
     mobileNumber: {
       type: Number,
       required: true,

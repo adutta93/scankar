@@ -2,6 +2,7 @@ const express = require('express');
 const cloudUpload = require('../utils/multer');
 // const authenticateToken = require('../utils/jwt');
 const fileUpload = require('../utils/excelMulter');
+
 const {
   getAllProducts,
   createProduct,
@@ -14,7 +15,7 @@ const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.route('/').get(getAllProducts).post(cloudUpload, createProduct);
+router.route('/').get(protect,getAllProducts).post(protect , createProduct);
 router.route('/uploadinbulk').post(fileUpload, uploadInBulk);
 router.route('/uploadSome').post(uploadInBulk);
 router

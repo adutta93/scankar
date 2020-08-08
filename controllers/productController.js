@@ -3,18 +3,21 @@ const cloudinary = require('../utils/cloudinary');
 const bufferToString = require('../utils/convertBufferToStr');
 const readXlsxFile = require('read-excel-file/node');
 const path = require('path');
+const User = require("../models/userModels")
 
 // ALL CONTROLLER
 
 // to get all products
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    console.log("User details0" , req.user)
+    // const products = await Product.find().populate("user");
+    const products = await User.find({_id:req.user._id}).populate("menu")
     res.status(200).json({
       status: 'Success',
       results: products.length,
       data: {
-        products,
+        products:products[0].menu
       },
     });
   } catch (err) {
@@ -48,26 +51,33 @@ exports.getSingleProduct = async (req, res) => {
 let imageContent, image_url;
 exports.createProduct = async (req, res) => {
   try {
-    imageContent = bufferToString(req.file.originalname, req.file.buffer)
-      .content;
-    await cloudinary.uploader.upload(imageContent, (err, imageResponse) => {
-      if (err) console.log(err);
-      else {
-        image_url = imageResponse.secure_url;
-        console.log('log from cloudinary', image_url);
-      }
-    });
-    // console.log(req.body);
+    // imageContent = bufferToString(req.file.originalname, req.file.buffer)
+    //   .content;
+    // await cloudinary.uploader.upload(imageContent, (err, imageResponse) => {
+    //   if (err) console.log(err);
+    //   else {
+    //     image_url = imageResponse.secure_url;
+    //     console.log('log from cloudinary', image_url);
+    //   }
+    // });
+ 
     const prod = req.body;
-    prod.photo = image_url;
+    // prod.photo = image_url;
     // prod.resturant_id = req.client_id;
-    console.log(prod);
+    
+   
     const newProduct = await Product.create(prod);
+    console.log("New Product" , newProduct)
+    console.log("User ID" , req.user._id)
+  
+    const userUpdate = await User.findOneAndUpdate({"_id":req.user._id} , {$push: {menu: newProduct._id}} , { new: true })
+    console.log("updated" , userUpdate)
     res.status(201).json({
       status: 'Success',
       message: 'Product successfully added to DB',
       data: {
         User: newProduct,
+        userUpdate
       },
     });
   } catch (err) {

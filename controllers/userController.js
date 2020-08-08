@@ -4,7 +4,7 @@ const User = require('./../models/userModels');
 // to get all user
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate("menu");
     res.status(200).json({
       status: 'Success',
       results: users.length,
