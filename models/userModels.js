@@ -35,8 +35,8 @@ const userSchema = new mongoose.Schema(
       ref : "Product"
     }],
     mobileNumber: {
-      type: Number,
-      required: true,
+      type: String,
+      // required: true,
       trim: true,
       unique: true,
     },
